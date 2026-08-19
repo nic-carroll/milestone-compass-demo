@@ -13,7 +13,7 @@ below before assuming any of it.
 
 ## Try it
 
-- **Live demo:** _(GitHub Pages link goes here once enabled)_
+- **Live demo:** https://nic-carroll.github.io/milestone-compass-demo/
 - **Run locally:**
   ```bash
   git clone https://github.com/nic-carroll/milestone-compass-demo.git
