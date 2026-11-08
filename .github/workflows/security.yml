@@ -1,0 +1,27 @@
+name: Security scan
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "47 9 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Scan full history for credentials
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.28.0/gitleaks_8.28.0_linux_x64.tar.gz | tar xz gitleaks
+          ./gitleaks git . --redact --no-banner
+  code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static analysis
+        run: |
+          pipx install semgrep
+          semgrep scan --config p/security-audit --config p/javascript --severity ERROR --error --metrics off
